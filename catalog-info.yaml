@@ -1,0 +1,66 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: hpwad-live-poi-backend-app-dev
+  annotations:
+    argocd/app-name: hpwad-live-poi-backend-app-dev
+    backstage.io/kubernetes-id: hpwad-live-poi-backend-app
+    backstage.io/kubernetes-namespace: hpwad-live
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: devhub-test/hpwad-live-backend
+    janus-idp.io/tekton-enabled: 'true'
+  tags:
+    - java
+    - quarkus
+    - maven
+    - workshop
+  links:
+    - url: https://console-openshift-console.apps.redhatdevhub.l07n.p1.openshiftapps.com/dev-pipelines/ns/hpwad-live/
+      title: Pipelines
+      icon: web
+    - url: https://console-openshift-console.apps.redhatdevhub.l07n.p1.openshiftapps.com/k8s/ns/hpwad-live/deployments/hpwad-live-poi-backend-app
+      title: Deployment
+      icon: web
+    - url: https://devspaces.apps.redhatdevhub.l07n.p1.openshiftapps.com/#https://github.com/devhub-test/hpwad-live-backend?che-editor=che-incubator/che-code/latest&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "user:default/hpgrahsl"
+  system: workshop-system-hpwad-live
+  providesApis:
+    - backend-api-hpwad-live
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-hpwad-live
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "user:default/hpgrahsl"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: backend-api-hpwad-live
+  description: API surface used by workshop attendees to initialize and load parks data
+  links:
+    - url: http://hpwad-live-poi-backend-app-hpwad-live.apps.redhatdevhub.l07n.p1.openshiftapps.com/q/swagger-ui
+      title: Swagger UI
+      icon: web
+    - url: https://github.com/devhub-test/hpwad-live-backend/tree/main/src/main/resources/META-INF/openapi.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "user:default/hpgrahsl"
+  system: workshop-system-hpwad-live
+  definition:
+    $text: https://github.com/devhub-test/hpwad-live-backend/tree/main/src/main/resources/META-INF/openapi.yaml
